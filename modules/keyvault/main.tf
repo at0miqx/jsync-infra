@@ -3,13 +3,13 @@ data "azurerm_client_config" "current" {}
 # ─── Key Vault ────────────────────────────────────────────────────────────────
 
 resource "azurerm_key_vault" "main" {
-  name                        = "kv-${var.prefix}-${var.environment}"
-  location                    = var.location
-  resource_group_name         = var.resource_group_name
-  tenant_id                   = data.azurerm_client_config.current.tenant_id
-  sku_name                    = "standard"
-  soft_delete_retention_days  = 7
-  purge_protection_enabled    = false  # disable for hackathon ease of re-create
+  name                       = "kv-${var.prefix}-${var.environment}"
+  location                   = var.location
+  resource_group_name        = var.resource_group_name
+  tenant_id                  = data.azurerm_client_config.current.tenant_id
+  sku_name                   = "standard"
+  soft_delete_retention_days = 7
+  purge_protection_enabled   = false # disable for hackathon ease of re-create
 
   tags = var.tags
 }
@@ -57,8 +57,8 @@ resource "azurerm_key_vault_secret" "db_password" {
 }
 
 resource "azurerm_key_vault_secret" "db_connection_string" {
-  name  = "db-connection-string"
-  value = "mysql://${var.db_admin_username}:${var.db_password}@${var.mysql_fqdn}:3306/${var.db_name}"
+  name         = "db-connection-string"
+  value        = "mysql://${var.db_admin_username}:${var.db_password}@${var.mysql_fqdn}:3306/${var.db_name}"
   key_vault_id = azurerm_key_vault.main.id
 
   depends_on = [azurerm_key_vault_access_policy.terraform_sp]
