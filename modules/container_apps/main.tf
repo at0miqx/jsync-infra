@@ -153,6 +153,12 @@ resource "azurerm_container_app" "server" {
     }
   }
 
+  timeouts {
+    create = "30m"
+    update = "30m"
+    delete = "30m"
+  }
+
   tags = var.tags
 }
 
@@ -204,6 +210,12 @@ resource "azurerm_container_app" "client" {
       latest_revision = true
       percentage      = 100
     }
+  }
+
+  timeouts {
+    create = "30m"
+    update = "30m"
+    delete = "30m"
   }
 
   tags = var.tags

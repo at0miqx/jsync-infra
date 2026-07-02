@@ -9,7 +9,7 @@ $ErrorActionPreference = "Stop"
 
 # ─── Configuration ────────────────────────────────────────────────────────────
 $TfstateRg          = "rg-jsync-tfstate"
-$Location           = "southeastasia"   # Change if your subscription doesn't allow southindia
+$Location           = "koreacentral"
 $Suffix             = -join ((97..122) + (48..57) | Get-Random -Count 6 | ForEach-Object { [char]$_ })
 $StorageAccountName = "stjsynctfstate$Suffix"
 $ContainerName      = "tfstate"

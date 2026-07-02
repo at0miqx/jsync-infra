@@ -3,7 +3,7 @@
 
 prefix      = "jsync"
 environment = "prod"
-location    = "southeastasia"
+location    = "koreacentral"
 
 db_name           = "jsync"
 db_admin_username = "jsyncadmin"
