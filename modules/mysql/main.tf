@@ -71,4 +71,10 @@ resource "azurerm_mysql_flexible_server_configuration" "require_secure_transport
   resource_group_name = var.resource_group_name
   server_name         = azurerm_mysql_flexible_server.main.name
   value               = "ON"
+
+  depends_on = [
+    azurerm_mysql_flexible_server.main,
+    azurerm_mysql_flexible_database.main,
+    azurerm_mysql_flexible_server_firewall_rule.allow_azure_services,
+  ]
 }
