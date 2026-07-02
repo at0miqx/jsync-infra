@@ -26,11 +26,6 @@ resource "azurerm_key_vault_access_policy" "terraform_sp" {
   ]
 }
 
-import {
-  to = azurerm_key_vault_access_policy.terraform_sp
-  id = "${azurerm_key_vault.main.id}/objectId/${data.azurerm_client_config.current.object_id}"
-}
-
 # ─── Access policy: server Container App managed identity ─────────────────────
 
 resource "azurerm_key_vault_access_policy" "server_app" {

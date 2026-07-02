@@ -1,3 +1,5 @@
+data "azurerm_client_config" "current" {}
+
 locals {
   # Common tags applied to every resource
   common_tags = {
@@ -154,4 +156,9 @@ module "keyvault" {
   tags = local.common_tags
 
   depends_on = [module.container_apps, module.mysql, module.acr]
+}
+
+import {
+  to = module.keyvault.azurerm_key_vault_access_policy.terraform_sp
+  id = "${module.keyvault.key_vault_id}/objectId/${data.azurerm_client_config.current.object_id}"
 }
