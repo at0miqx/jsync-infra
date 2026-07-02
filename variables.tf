@@ -169,7 +169,7 @@ variable "smtp_from" {
 variable "admin_username" {
   description = "Initial admin account username for the application."
   type        = string
-  default     = "admin"
+  default     = "admin@gmail.com"
 }
 
 variable "next_public_app_name" {
