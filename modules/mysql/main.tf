@@ -1,3 +1,15 @@
+resource "random_string" "mysql_suffix" {
+  length  = 6
+  special = false
+  upper   = false
+
+  # Only regenerate if the base name changes
+  keepers = {
+    prefix      = var.prefix
+    environment = var.environment
+  }
+}
+
 resource "random_password" "db" {
   length           = 24
   special          = true
@@ -9,7 +21,7 @@ resource "random_password" "db" {
 }
 
 resource "azurerm_mysql_flexible_server" "main" {
-  name                   = "mysql-${var.prefix}-${var.environment}"
+  name                   = "mysql-${var.prefix}-${var.environment}-${random_string.mysql_suffix.result}"
   resource_group_name    = var.resource_group_name
   location               = var.location
   administrator_login    = var.db_admin_username
