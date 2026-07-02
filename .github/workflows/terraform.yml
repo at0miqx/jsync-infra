@@ -29,6 +29,33 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: |
+            {
+              "clientId":       "${{ secrets.AZURE_CLIENT_ID }}",
+              "clientSecret":   "${{ secrets.AZURE_CLIENT_SECRET }}",
+              "subscriptionId": "${{ secrets.AZURE_SUBSCRIPTION_ID }}",
+              "tenantId":       "${{ secrets.AZURE_TENANT_ID }}"
+            }
+
+      - name: Grant Terraform SP Key Vault access
+        shell: bash
+        run: |
+          PREFIX=$(grep -E '^prefix[[:space:]]*=' terraform.tfvars | sed -E 's/.*"([^"]+)".*/\1/')
+          ENVIRONMENT=$(grep -E '^environment[[:space:]]*=' terraform.tfvars | sed -E 's/.*"([^"]+)".*/\1/')
+          VAULT_NAME="kv-${PREFIX}-${ENVIRONMENT}"
+
+          if az keyvault show --name "$VAULT_NAME" >/dev/null 2>&1; then
+            OBJECT_ID=$(az ad sp show --id "${{ secrets.AZURE_CLIENT_ID }}" --query id -o tsv)
+            az keyvault set-policy \
+              --name "$VAULT_NAME" \
+              --object-id "$OBJECT_ID" \
+              --secret-permissions get list \
+              --only-show-errors
+          fi
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
@@ -61,6 +88,33 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: |
+            {
+              "clientId":       "${{ secrets.AZURE_CLIENT_ID }}",
+              "clientSecret":   "${{ secrets.AZURE_CLIENT_SECRET }}",
+              "subscriptionId": "${{ secrets.AZURE_SUBSCRIPTION_ID }}",
+              "tenantId":       "${{ secrets.AZURE_TENANT_ID }}"
+            }
+
+      - name: Grant Terraform SP Key Vault access
+        shell: bash
+        run: |
+          PREFIX=$(grep -E '^prefix[[:space:]]*=' terraform.tfvars | sed -E 's/.*"([^"]+)".*/\1/')
+          ENVIRONMENT=$(grep -E '^environment[[:space:]]*=' terraform.tfvars | sed -E 's/.*"([^"]+)".*/\1/')
+          VAULT_NAME="kv-${PREFIX}-${ENVIRONMENT}"
+
+          if az keyvault show --name "$VAULT_NAME" >/dev/null 2>&1; then
+            OBJECT_ID=$(az ad sp show --id "${{ secrets.AZURE_CLIENT_ID }}" --query id -o tsv)
+            az keyvault set-policy \
+              --name "$VAULT_NAME" \
+              --object-id "$OBJECT_ID" \
+              --secret-permissions get list \
+              --only-show-errors
+          fi
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
