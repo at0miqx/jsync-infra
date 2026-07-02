@@ -52,7 +52,7 @@ jobs:
             az keyvault set-policy \
               --name "$VAULT_NAME" \
               --object-id "$OBJECT_ID" \
-              --secret-permissions get list \
+              --secret-permissions get list set delete purge recover \
               --only-show-errors
           fi
 
@@ -112,7 +112,7 @@ jobs:
             az keyvault set-policy \
               --name "$VAULT_NAME" \
               --object-id "$OBJECT_ID" \
-              --secret-permissions get list \
+              --secret-permissions get list set delete purge recover \
               --only-show-errors
           fi
 
