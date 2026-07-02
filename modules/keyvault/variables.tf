@@ -45,18 +45,6 @@ variable "mysql_fqdn" {
   type        = string
 }
 
-variable "acr_admin_username" {
-  description = "ACR admin username to store as a secret."
-  type        = string
-  sensitive   = true
-}
-
-variable "acr_admin_password" {
-  description = "ACR admin password to store as a secret."
-  type        = string
-  sensitive   = true
-}
-
 variable "tags" {
   type    = map(string)
   default = {}

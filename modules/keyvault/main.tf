@@ -64,22 +64,6 @@ resource "azurerm_key_vault_secret" "db_connection_string" {
   depends_on = [azurerm_key_vault_access_policy.terraform_sp]
 }
 
-resource "azurerm_key_vault_secret" "acr_username" {
-  name         = "acr-username"
-  value        = var.acr_admin_username
-  key_vault_id = azurerm_key_vault.main.id
-
-  depends_on = [azurerm_key_vault_access_policy.terraform_sp]
-}
-
-resource "azurerm_key_vault_secret" "acr_password" {
-  name         = "acr-password"
-  value        = var.acr_admin_password
-  key_vault_id = azurerm_key_vault.main.id
-
-  depends_on = [azurerm_key_vault_access_policy.terraform_sp]
-}
-
 # ─── Application secrets ──────────────────────────────────────────────────────
 # Only created when a non-empty value is supplied (so first apply without
 # these values doesn't fail — add them before the first real deployment).

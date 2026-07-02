@@ -144,8 +144,6 @@ module "keyvault" {
   db_name           = var.db_name
   mysql_fqdn        = module.mysql.server_fqdn
 
-  acr_admin_username = module.acr.admin_username
-  acr_admin_password = module.acr.admin_password
 
   # Application secrets
   jwt_secret     = var.jwt_secret
