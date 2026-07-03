@@ -61,11 +61,14 @@ module "mysql" {
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
 
-  db_admin_username = var.db_admin_username
-  db_name           = var.db_name
-  sku_name          = var.mysql_sku_name
-  mysql_version     = var.mysql_version
-  storage_gb        = var.mysql_storage_gb
+  db_admin_username   = var.db_admin_username
+  db_admin_password   = var.db_admin_password
+  db_name             = var.db_name
+  sku_name            = var.mysql_sku_name
+  mysql_version       = var.mysql_version
+  storage_gb          = var.mysql_storage_gb
+  delegated_subnet_id = module.networking.mysql_subnet_id
+  private_dns_zone_id = module.networking.mysql_private_dns_zone_id
 
   tags = local.common_tags
 }
@@ -79,6 +82,7 @@ module "container_apps" {
   environment         = var.environment
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
+  aca_subnet_id       = module.networking.aca_subnet_id
 
   acr_login_server = module.acr.login_server
 
@@ -92,7 +96,7 @@ module "container_apps" {
   mysql_fqdn        = module.mysql.server_fqdn
   db_name           = var.db_name
   db_admin_username = var.db_admin_username
-  db_password       = module.mysql.db_password
+  db_admin_password = var.db_admin_password
 
   # Application secrets
   jwt_secret     = var.jwt_secret
@@ -141,8 +145,8 @@ module "keyvault" {
   server_principal_id = module.container_apps.server_principal_id
   client_principal_id = module.container_apps.client_principal_id
 
-  db_password       = module.mysql.db_password
   db_admin_username = var.db_admin_username
+  db_admin_password = var.db_admin_password
   db_name           = var.db_name
   mysql_fqdn        = module.mysql.server_fqdn
 

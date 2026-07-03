@@ -14,9 +14,23 @@ variable "resource_group_name" {
   type = string
 }
 
+variable "delegated_subnet_id" {
+  description = "Subnet ID delegated to Azure Database for MySQL Flexible Server."
+  type        = string
+}
+
+variable "private_dns_zone_id" {
+  description = "Private DNS zone ID for the MySQL Flexible Server."
+  type        = string
+}
+
 variable "db_admin_username" {
-  type    = string
-  default = "jsyncadmin"
+  type = string
+}
+
+variable "db_admin_password" {
+  type      = string
+  sensitive = true
 }
 
 variable "db_name" {

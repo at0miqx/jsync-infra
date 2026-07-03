@@ -29,7 +29,12 @@ variable "db_name" {
 variable "db_admin_username" {
   description = "Administrator username for the MySQL Flexible Server."
   type        = string
-  default     = "jsyncadmin"
+}
+
+variable "db_admin_password" {
+  description = "Administrator password for the MySQL Flexible Server"
+  type        = string
+  sensitive   = true
 }
 
 variable "mysql_sku_name" {

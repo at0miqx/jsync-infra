@@ -8,6 +8,7 @@
 
 # Sensitive variable overrides — never commit these
 *.tfvars.local
+*.auto.tfvars
 override.tf
 override.tf.json
 *_override.tf

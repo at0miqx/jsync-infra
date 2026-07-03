@@ -135,9 +135,15 @@ jobs:
         run: |
           terraform plan \
             -var-file="terraform.tfvars" \
+            -var="jwt_secret=${{ secrets.JWT_SECRET }}" \
+            -var="groq_api_key=${{ secrets.GROQ_API_KEY }}" \
+            -var="smtp_password=${{ secrets.SMTP_PASSWORD }}" \
+            -var="admin_password=${{ secrets.APP_ADMIN_PASSWORD }}" \
+            -var="smtp_user=${{ secrets.SMTP_USER }}" \
+            -var="db_admin_username=${{ secrets.DB_ADMIN_USERNAME }}" \
+            -var="db_admin_password=${{ secrets.DB_ADMIN_PASSWORD }}" \
             -out=tfplan \
             -no-color 2>&1 | tee plan_output.txt
-          echo "exitcode=${PIPESTATUS[0]}" >> $GITHUB_OUTPUT
         working-directory: .
         continue-on-error: true
 
@@ -205,6 +211,8 @@ jobs:
             -var="smtp_password=${{ secrets.SMTP_PASSWORD }}" \
             -var="admin_password=${{ secrets.APP_ADMIN_PASSWORD }}" \
             -var="smtp_user=${{ secrets.SMTP_USER }}" \
+            -var="db_admin_username=${{ secrets.DB_ADMIN_USERNAME }}" \
+            -var="db_admin_password=${{ secrets.DB_ADMIN_PASSWORD }}" \
             -auto-approve \
             -no-color
         working-directory: .
