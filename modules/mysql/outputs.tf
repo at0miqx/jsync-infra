@@ -20,6 +20,6 @@ output "db_admin_username" {
 
 output "db_password" {
   description = "Generated MySQL admin password."
-  value       = random_password.db.result
+  value       = azurerm_mysql_flexible_server.main.administrator_password
   sensitive   = true
 }

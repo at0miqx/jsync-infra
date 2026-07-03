@@ -18,6 +18,8 @@ resource "azurerm_mysql_flexible_server" "main" {
   administrator_password = var.db_admin_password
   sku_name               = var.sku_name
   version                = var.mysql_version
+  delegated_subnet_id    = var.delegated_subnet_id
+  private_dns_zone_id    = var.private_dns_zone_id
 
   storage {
     auto_grow_enabled = true
@@ -44,18 +46,6 @@ resource "azurerm_mysql_flexible_database" "main" {
   collation           = "utf8mb4_unicode_ci"
 }
 
-# ─── Firewall rules ───────────────────────────────────────────────────────────
-# Allow all Azure-internal traffic (includes Container Apps, Azure services).
-# The 0.0.0.0 rule is the Azure convention for "allow Azure services".
-
-resource "azurerm_mysql_flexible_server_firewall_rule" "allow_azure_services" {
-  name                = "AllowAzureServices"
-  resource_group_name = var.resource_group_name
-  server_name         = azurerm_mysql_flexible_server.main.name
-  start_ip_address    = "0.0.0.0"
-  end_ip_address      = "0.0.0.0"
-}
-
 resource "azurerm_mysql_flexible_server_configuration" "require_secure_transport" {
   name                = "require_secure_transport"
   resource_group_name = var.resource_group_name
@@ -65,6 +55,5 @@ resource "azurerm_mysql_flexible_server_configuration" "require_secure_transport
   depends_on = [
     azurerm_mysql_flexible_server.main,
     azurerm_mysql_flexible_database.main,
-    azurerm_mysql_flexible_server_firewall_rule.allow_azure_services,
   ]
 }

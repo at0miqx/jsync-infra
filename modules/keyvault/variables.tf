@@ -24,7 +24,7 @@ variable "client_principal_id" {
   type        = string
 }
 
-variable "db_password" {
+variable "db_admin_password" {
   description = "MySQL admin password to store as a secret."
   type        = string
   sensitive   = true

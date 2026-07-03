@@ -6,9 +6,9 @@ environment = "prod"
 location    = "koreacentral"
 # eastasia → uaenorth → malaysiawest
 
-db_name           = "jsync"
-mysql_sku_name    = "B_Standard_B2s"
-mysql_storage_gb  = 20
+db_name          = "jsync"
+mysql_sku_name   = "B_Standard_B2s"
+mysql_storage_gb = 20
 
 server_cpu    = 0.5
 server_memory = "1Gi"

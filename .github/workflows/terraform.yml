@@ -212,7 +212,7 @@ jobs:
             -var="admin_password=${{ secrets.APP_ADMIN_PASSWORD }}" \
             -var="smtp_user=${{ secrets.SMTP_USER }}" \
             -var="db_admin_username=${{ secrets.DB_ADMIN_USERNAME }}" \
-            -var="db_admin_password=${{ secrets.DB_ADMIN_PASSWORD }}"
+            -var="db_admin_password=${{ secrets.DB_ADMIN_PASSWORD }}" \
             -auto-approve \
             -no-color
         working-directory: .

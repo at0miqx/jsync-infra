@@ -14,6 +14,11 @@ variable "resource_group_name" {
   type = string
 }
 
+variable "aca_subnet_id" {
+  description = "Subnet ID used for Container Apps environment VNet integration."
+  type        = string
+}
+
 variable "acr_login_server" {
   description = "ACR login server hostname."
   type        = string
@@ -64,7 +69,7 @@ variable "db_admin_username" {
   type = string
 }
 
-variable "db_password" {
+variable "db_admin_password" {
   description = "MySQL admin password (stored as a Container App secret)."
   type        = string
   sensitive   = true

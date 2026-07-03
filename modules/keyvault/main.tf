@@ -50,7 +50,7 @@ resource "azurerm_key_vault_access_policy" "client_app" {
 
 resource "azurerm_key_vault_secret" "db_password" {
   name         = "db-password"
-  value        = var.db_password
+  value        = var.db_admin_password
   key_vault_id = azurerm_key_vault.main.id
 
   depends_on = [azurerm_key_vault_access_policy.terraform_sp]
@@ -58,7 +58,7 @@ resource "azurerm_key_vault_secret" "db_password" {
 
 resource "azurerm_key_vault_secret" "db_connection_string" {
   name         = "db-connection-string"
-  value        = "mysql://${var.db_admin_username}:${var.db_password}@${var.mysql_fqdn}:3306/${var.db_name}"
+  value        = "mysql://${var.db_admin_username}:${var.db_admin_password}@${var.mysql_fqdn}:3306/${var.db_name}"
   key_vault_id = azurerm_key_vault.main.id
 
   depends_on = [azurerm_key_vault_access_policy.terraform_sp]
