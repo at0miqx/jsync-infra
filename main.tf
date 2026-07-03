@@ -95,11 +95,11 @@ module "mysql" {
 module "container_apps" {
   source = "./modules/container_apps"
 
-  prefix              = var.prefix
-  environment         = var.environment
-  location            = azurerm_resource_group.main.location
-  resource_group_name = azurerm_resource_group.main.name
-  aca_subnet_id       = module.networking.aca_subnet_id
+  prefix               = var.prefix
+  environment          = var.environment
+  location             = azurerm_resource_group.main.location
+  resource_group_name  = azurerm_resource_group.main.name
+  aca_subnet_id        = module.networking.aca_subnet_id
   acr_pull_identity_id = azurerm_user_assigned_identity.container_apps_acr_pull.id
 
   acr_login_server = module.acr.login_server
