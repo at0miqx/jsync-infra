@@ -51,6 +51,23 @@ module "acr" {
   tags = local.common_tags
 }
 
+# Dedicated identity for image pulls so ACR access can be granted before
+# Container Apps exist. This avoids the bootstrap deadlock with SystemAssigned
+# identities during first creation.
+resource "azurerm_user_assigned_identity" "container_apps_acr_pull" {
+  name                = "uami-${var.prefix}-${var.environment}-acr-pull"
+  location            = azurerm_resource_group.main.location
+  resource_group_name = azurerm_resource_group.main.name
+
+  tags = local.common_tags
+}
+
+resource "azurerm_role_assignment" "container_apps_acr_pull" {
+  scope                = module.acr.acr_id
+  role_definition_name = "AcrPull"
+  principal_id         = azurerm_user_assigned_identity.container_apps_acr_pull.principal_id
+}
+
 # ─── MySQL ────────────────────────────────────────────────────────────────────
 
 module "mysql" {
@@ -83,6 +100,7 @@ module "container_apps" {
   location            = azurerm_resource_group.main.location
   resource_group_name = azurerm_resource_group.main.name
   aca_subnet_id       = module.networking.aca_subnet_id
+  acr_pull_identity_id = azurerm_user_assigned_identity.container_apps_acr_pull.id
 
   acr_login_server = module.acr.login_server
 
@@ -113,23 +131,7 @@ module "container_apps" {
 
   tags = local.common_tags
 
-  depends_on = [module.mysql, module.acr]
-}
-
-# ─── AcrPull role assignments ─────────────────────────────────────────────────
-# Defined here (not inside the acr module) to break the circular dependency:
-#   acr module needs no principal IDs → container_apps can reference acr first.
-
-resource "azurerm_role_assignment" "server_acr_pull" {
-  scope                = module.acr.acr_id
-  role_definition_name = "AcrPull"
-  principal_id         = module.container_apps.server_principal_id
-}
-
-resource "azurerm_role_assignment" "client_acr_pull" {
-  scope                = module.acr.acr_id
-  role_definition_name = "AcrPull"
-  principal_id         = module.container_apps.client_principal_id
+  depends_on = [module.mysql, module.acr, azurerm_role_assignment.container_apps_acr_pull]
 }
 
 # ─── Key Vault ────────────────────────────────────────────────────────────────

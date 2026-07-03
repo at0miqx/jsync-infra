@@ -33,12 +33,13 @@ resource "azurerm_container_app" "server" {
   revision_mode                = "Single"
 
   identity {
-    type = "SystemAssigned"
+    type         = "SystemAssigned, UserAssigned"
+    identity_ids = [var.acr_pull_identity_id]
   }
 
   registry {
     server   = var.acr_login_server
-    identity = "System"
+    identity = var.acr_pull_identity_id
   }
 
   template {
@@ -172,12 +173,13 @@ resource "azurerm_container_app" "client" {
   revision_mode                = "Single"
 
   identity {
-    type = "SystemAssigned"
+    type         = "SystemAssigned, UserAssigned"
+    identity_ids = [var.acr_pull_identity_id]
   }
 
   registry {
     server   = var.acr_login_server
-    identity = "System"
+    identity = var.acr_pull_identity_id
   }
 
   template {
