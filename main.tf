@@ -62,6 +62,7 @@ module "mysql" {
   resource_group_name = azurerm_resource_group.main.name
 
   db_admin_username = var.db_admin_username
+  db_admin_password = var.db_admin_password
   db_name           = var.db_name
   sku_name          = var.mysql_sku_name
   mysql_version     = var.mysql_version

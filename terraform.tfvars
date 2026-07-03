@@ -7,7 +7,6 @@ location    = "koreacentral"
 # eastasia → uaenorth → malaysiawest
 
 db_name           = "jsync"
-db_admin_username = "jsyncadmin"
 mysql_sku_name    = "B_Standard_B2s"
 mysql_storage_gb  = 20
 

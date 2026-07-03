@@ -10,22 +10,12 @@ resource "random_string" "mysql_suffix" {
   }
 }
 
-resource "random_password" "db" {
-  length           = 24
-  special          = true
-  override_special = "!#$%&*()-_=+[]{}<>?"
-  min_upper        = 2
-  min_lower        = 2
-  min_numeric      = 2
-  min_special      = 2
-}
-
 resource "azurerm_mysql_flexible_server" "main" {
   name                   = "mysql-${var.prefix}-${var.environment}-${random_string.mysql_suffix.result}"
   resource_group_name    = var.resource_group_name
   location               = var.location
   administrator_login    = var.db_admin_username
-  administrator_password = random_password.db.result
+  administrator_password = var.db_admin_password
   sku_name               = var.sku_name
   version                = var.mysql_version
 
