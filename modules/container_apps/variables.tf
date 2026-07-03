@@ -19,6 +19,11 @@ variable "aca_subnet_id" {
   type        = string
 }
 
+variable "acr_pull_identity_id" {
+  description = "User-assigned managed identity ID used for ACR image pulls."
+  type        = string
+}
+
 variable "acr_login_server" {
   description = "ACR login server hostname."
   type        = string
