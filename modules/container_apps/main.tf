@@ -167,6 +167,13 @@ resource "azurerm_container_app" "server" {
     delete = "30m"
   }
 
+  lifecycle {
+    ignore_changes = [
+      template[0].container[0].image,
+      workload_profile_name,
+    ]
+  }
+
   tags = var.tags
 }
 
@@ -225,6 +232,13 @@ resource "azurerm_container_app" "client" {
     create = "30m"
     update = "30m"
     delete = "30m"
+  }
+
+  lifecycle {
+    ignore_changes = [
+      template[0].container[0].image,
+      workload_profile_name,
+    ]
   }
 
   tags = var.tags
