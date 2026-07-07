@@ -21,6 +21,12 @@ resource "azurerm_container_app_environment" "main" {
   log_analytics_workspace_id = azurerm_log_analytics_workspace.main.id
   infrastructure_subnet_id   = var.aca_subnet_id
 
+  lifecycle {
+    ignore_changes = [
+      infrastructure_resource_group_name,
+    ]
+  }
+
   tags = var.tags
 }
 
@@ -161,6 +167,13 @@ resource "azurerm_container_app" "server" {
     delete = "30m"
   }
 
+  lifecycle {
+    ignore_changes = [
+      template[0].container[0].image,
+      workload_profile_name,
+    ]
+  }
+
   tags = var.tags
 }
 
@@ -219,6 +232,13 @@ resource "azurerm_container_app" "client" {
     create = "30m"
     update = "30m"
     delete = "30m"
+  }
+
+  lifecycle {
+    ignore_changes = [
+      template[0].container[0].image,
+      workload_profile_name,
+    ]
   }
 
   tags = var.tags

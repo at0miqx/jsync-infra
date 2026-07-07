@@ -24,6 +24,13 @@ resource "azurerm_key_vault_access_policy" "terraform_sp" {
   secret_permissions = [
     "Get", "List", "Set", "Delete", "Purge", "Recover",
   ]
+
+  lifecycle {
+    ignore_changes = [
+      tenant_id,
+      object_id,
+    ]
+  }
 }
 
 # ─── Access policy: server Container App managed identity ─────────────────────
@@ -34,6 +41,13 @@ resource "azurerm_key_vault_access_policy" "server_app" {
   object_id    = var.server_principal_id
 
   secret_permissions = ["Get", "List"]
+
+  lifecycle {
+    ignore_changes = [
+      tenant_id,
+      object_id,
+    ]
+  }
 }
 
 # ─── Access policy: client Container App managed identity ─────────────────────
@@ -44,6 +58,13 @@ resource "azurerm_key_vault_access_policy" "client_app" {
   object_id    = var.client_principal_id
 
   secret_permissions = ["Get", "List"]
+
+  lifecycle {
+    ignore_changes = [
+      tenant_id,
+      object_id,
+    ]
+  }
 }
 
 # ─── Secrets ──────────────────────────────────────────────────────────────────
