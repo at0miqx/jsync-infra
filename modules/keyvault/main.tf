@@ -28,6 +28,7 @@ resource "azurerm_key_vault_access_policy" "terraform_sp" {
   lifecycle {
     ignore_changes = [
       tenant_id,
+      object_id,
     ]
   }
 }
